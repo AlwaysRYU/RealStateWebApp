@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<!-- Bootstrap 5 버전 -->
+	<!-- https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+	
+	<!-- No jQuery -->
+
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/alertify.min.js"></script>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/css/alertify.min.css"/>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/css/themes/default.min.css"/>
+	
+	<!-- New for FileUpload, CKEditor -->
+	<link rel="stylesheet" href="/css/common.css">
+	<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>
+	<!-- / New for FileUpload, CKEditor -->
+    
+    <title> 부동산 거래 목록 조회 화면</title>
+    
+	<style>
+	    
+	    div.left {
+	        width: 45%;
+	        float: left;
+	        box-sizing: border-box;
+	        
+	    }
+	    div.right {
+	        width: 45%;
+	        float: right;
+	        box-sizing: border-box;
+	        margin-left: 1px
+	    }
+    </style>
+
+
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1CRjAOA93vwh8VvCkgR1AGt2VGiclFws&callback=initMap&libraries=&v=weekly"
+async
+defer
+></script>
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(
+            document.getElementById("map"),
+            {
+                center: {
+                    lat:37.5843639,
+                    lng: 126.9681153
+                },
+                zoom : 8
+            }
+        );
+    }
+
+    var markers = [];
+    var indices = [];
+   
+
+</script>
+     
+</head>
+
+<body>
+	 <!-- #1 navbar  -->
+	<div class="container" style="margin-bottom: 100px">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="/index_AfterLogin">Happy
+						House</a>
+					<button class="navbar-toggler" type="button"
+						data-bs-toggle="collapse" data-bs-target="#navbarNav"
+						aria-controls="navbarNav" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav">
+							<li class="nav-item"><a class="nav-link active"
+								aria-current="page" href="/noticelist">공지사항</a></li>
+							<li class="nav-item"><a class="nav-link" href="/board">게시판</a></li>
+							<li class="nav-item"><a class="nav-link" href="/Building_Search"> 아파트 매매 정보</a></li>
+							
+							
+						</ul>
+					</div>
+					<div class="collapse navbar-collapse justify-content-end"
+						id="navbarNav">
+						<ul class="navbar-nav">
+							<li class="nav-item"><a class="nav-link" id="logout">🔒로그아웃</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" id="mypage">✋내정보</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	<!-- #1 navbar  -->
+
+	<div class="container"> <!-- #2 컨테이너 플루이드 -->
+		<!-- 남아있는건 컨테이너 / 컨테이너 플루이드는 100프로로 양옆에 채워줌 -->
+		<div class="my-3 d-flex justify-content-center">
+			<h4> 부동산 거래 목록 조회   </h4>
+		</div>
+		
+		<div class="left">
+		<div class="input-group mb-3">
+		  <input id="inputSearchWord" type="text" class="form-control" placeholder="동이름으로 검색" aria-label="Recipient's username" aria-describedby="button-addon2">
+		  <button class="btn btn-outline-success" type="button" id="btnSearchWord"> 찾기 </button>
+		</div>
+		<table class="table table-hover">
+			  <thead>
+			    <tr>
+			      <th>#</th>
+			      <th> 동 </th>
+			      <th> 아파트 이름  </th>
+			      <th> 아파트 거래가 </th>
+			      <th> 크기 </th>
+			    </tr>
+			  </thead> <!--  헤드  -->
+			  <tbody id="boardTbody">
+			    <!-- 동적으로 갔다와서 채울 내용  -->
+			    
+			  </tbody>
+			  
+		</table>
+		<div id="paginationWrapper">   </div>
+		</div> <!-- 왼쪽 게시판  -->
+		
+		<!--           맵              -->
+		<div class="right">
+		 <div id="map" style="width:100%; height: 500px;"></div>
+		</div>
+	<!-- 버튼 추가
+	<button class="btn btn-primary" type="button" id="btnInsert"> 글쓰기 </button>
+	  -->
+	  
+  	</div> <!-- #2 컨테이너 -->
+	
+	
+	
+<!-- Modal detail-->
+
+<div class="modal" tabindex="-1" id="boardDetailModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> 매물 상세</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+    <table class="table table-hover">
+      <tbody>
+        <tr><td> 매물 번호 </td><td id="nodetail">#</td></tr>
+        <tr><td> 구 </td><td id="gudetail">#</td></tr>
+        <tr><td> 동 </td><td id="dongdetail">#</td></tr>
+        <tr><td> 아파트 이름 </td><td id="aptnamedetail">#</td></tr>
+        <tr><td> 넓이 </td><td id="areadetail">#</td></tr>
+        <tr><td> 층수 </td><td id="floordetail">#</td></tr>
+        <tr><td> 완공날짜 </td><td id="buildyeardetail">#</td></tr>
+        <tr><td> 매매가  </td><td id="dealamount">#</td></tr>
+        <tr><td> 매매년도 </td><td id="dealyear">#</td></tr>
+        
+	</tbody>
+    </table>
+    
+  </div>   
+  <button id="showlocation" class="btn btn-sm btn-primary btn-outline" data-bs-dismiss="modal" type="button"> 지도에서 보기 </button>
+				
+</div>
+   
+  </div>
+</div>
+<!-- End Modal -->
+<!--------------- Modal --------------------------->
+		<div class="modal fade" id="userinfo">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">내정보 보기</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+
+						<div class="example table-responsive">
+							<table class="table">
+								<tbody>
+									
+									<tr>
+										<td> 유저 이름 </td>
+										<td id="userNameDetail">#</td>
+									</tr>
+									<tr>
+										<td> 유저 이메일 </td>
+										<td id="userEmailDetail">#</td>
+									</tr>
+									<tr>
+										<td> 가입날짜 </td>
+										<td id="userRegiDetail">#</td>
+									</tr>
+																		
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="container">
+						  <div class="row">
+						    <div class="col-9">
+						    </div>
+						    <div class="col-3">
+						     <button id="modify" type="button" class="btn btn-warning">회원정보 수정하기</button>
+						   
+						    </div>
+						  </div>
+						</div>
+
+					</div>
+					
+					
+					
+				</div>
+			</div>
+		</div>
+		<!--------------- Modal --------------------------->
+<!-------------------------- JavaScript ----------------------->
+<script src="/js/util.js"></script>	
+<script>
+		// 전역변수 선언
+		var LIST_ROW_COUNT = 10; // 게시글 몇개를 보여줄것인지 // limit의 의미이다.
+		var OFFSET = 0; // 
+		var SEARCH_WORD = ""; 
+		var map;
+		var CKEditorInsert;
+		var CKEditorUpdate;
+		
+		
+		var PAGE_LINK_COUNT = 10;	// pagination link 갯수
+		var TOTAL_LIST_ITEM_COUNT = 0;
+		var CURRENT_PAGE_INDEX = 1;
+		
+		
+		const SUCCESS = 1;
+		
+		
+		
+		window.onload = function(){
+			
+			// 로그인이 안되어있으면 초기값으로 // 이건 다 붙여주기 js에 저장할수도 있음.
+			if ( sessionStorage.length == 0 || sessionStorage == null ) {
+				alert("로그인 하세요!");
+				window.location.href="/";
+			}
+			// 회원 정보
+	      	console.log(sessionStorage);
+			
+			document.querySelector("#logout").onclick = function(){
+				alert("로그아웃합니다!");
+				sessionStorage.clear();
+				window.location.href="/index.html";
+			}
+			boardList();
+			
+			// 검색어 검색 
+			document.querySelector("#btnSearchWord").onclick = function(){
+				SEARCH_WORD = document.querySelector("#inputSearchWord").value;
+				// 처음 페이지로 초기화
+				OFFSET = 0;
+				CURRENT_PAGE_INDEX = 1;
+				console.log(SEARCH_WORD + "로 찾기")
+				boardList();
+			}
+			
+			// 마이 페이지
+			document.querySelector("#mypage").onclick = function(){
+	      		
+	      		var myModal = new bootstrap.Modal(document.getElementById("userinfo"));
+	      		document.querySelector("#userNameDetail").innerHTML = sessionStorage.getItem("userName");
+	      		document.querySelector("#userEmailDetail").innerHTML = sessionStorage.getItem("userEmail");
+	      		
+	      		var regDt = sessionStorage.getItem("userRegisterDate");
+	      		//var regDtStr = makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.');
+	      		document.querySelector("#userRegiDetail").innerHTML = regDt;
+	      		
+	            myModal.show();
+			}
+			
+			document.querySelector("#modify").onclick = function(){
+	      		window.location.href="/modify";
+			}
+		
+		} // onload 끝
+
+
+		// list
+		function boardList(){
+			let fetchOptions = {
+		      	headers: {
+		    	  'async': 'true'
+		      	},
+		    }
+			
+			var url = '/building';
+		  	var urlParams = `?limit=${LIST_ROW_COUNT}&offset=${OFFSET}&searchWord=${SEARCH_WORD}`;
+		
+		    
+		    fetch(url + urlParams, fetchOptions)
+		    	.then( response => response.json())
+		    	.then( json => {
+		    		if( json.result == "login" ){
+		    			window.location.href="/";
+		    		}else if( json.result == SUCCESS ){
+		    			makeListHtml(json.list);
+		    		   	TOTAL_LIST_ITEM_COUNT = json.count;
+		    		   	addPagination();
+		    		}else{
+		    			alertify.error('글 조회 과정에 문제가 생겼습니다.');
+		    		}
+		    	})
+		    	.catch( error => {
+		    		console.error( error );
+		    		alertify.error('글 조회 과정에 문제가 생겼습니다.');
+		    	});
+		}
+		
+		function makeListHtml(list){
+			console.log(list);
+			let listHTML = ``;
+			list.forEach( el => {
+				let no = el.no;
+				let dong = el.dong;
+				var Aptname = el.AptName;
+				let	dealAmount = el.dealAmount;
+				let area = el.area;
+				
+				listHTML += `<tr style="cursor:pointer" data-boardId=${no}> <td> ${no} </td> <td>${dong}</td>  <td>${Aptname}</td><td>${dealAmount}</td><td>${area}</td></tr>`;
+			});
+			document.querySelector("#boardTbody").innerHTML = listHTML
+			makeListHtmlEventHandler();
+			//boardListTotalCnt(); <== removed
+		}
+		
+		function makeListHtmlEventHandler(){
+			document.querySelectorAll("#boardTbody tr").forEach( el => {
+				el.onclick = function(){
+					var boardId = this.getAttribute("data-boardId");
+					boardDetail(boardId); // 상세클릭하기 
+				}
+			});
+		}
+		// list total
+		// function boardListTotalCnt(){} <== removed
+		
+		function addPagination(){
+		
+			makePaginationHtml(LIST_ROW_COUNT, PAGE_LINK_COUNT, CURRENT_PAGE_INDEX, TOTAL_LIST_ITEM_COUNT, "paginationWrapper" );
+		}
+		
+		function movePage(pageIndex){
+			OFFSET = (pageIndex - 1) * LIST_ROW_COUNT;
+			CURRENT_PAGE_INDEX = pageIndex;
+			boardList();
+		}
+		
+		// 상세보기 
+		function boardDetail(boardId){
+			let fetchOptions = {
+		      	headers: {
+		    	  'async': 'true'
+		      	}
+		    }
+			
+			var url = '/building/' + boardId;
+		    
+		    fetch(url, fetchOptions)
+		    	.then( response => response.json())
+		    	.then( json => {
+		    		if( json.result == SUCCESS ){
+		    			makeDetailHtml(json.dto);
+		    		}else{
+		    			alertify.error('글 상세 조회 과정에 문제가 생겼습니다.');
+		    		}
+		    	})
+		    	.catch( error => {
+		    		console.error( error );
+		    		alertify.error('글 상세 조회 과정에 문제가 생겼습니다.');
+		    	});
+		}
+		
+		function makeDetailHtml(el){
+			console.log("상세보기");
+			console.log(el);
+			
+			
+			let no = el.no;
+		    let guname = el.gugunName;
+		    let dong = el.dong;
+		    let Aptname = el.AptName;
+			let	dealAmount = el.dealAmount;
+			let dealYear = el.dealYear
+			let area = el.area;
+			let floor = el.floor;
+			let	buildYear = el.buildYear;
+			
+			document.querySelector("#nodetail").setAttribute("data-boardId", no);
+			document.querySelector("#nodetail").innerHTML = "#" + no;
+			document.querySelector("#gudetail").innerHTML = guname;
+			document.querySelector("#dongdetail").innerHTML = Aptname;
+			document.querySelector("#aptnamedetail").innerHTML = dealAmount;
+			document.querySelector("#areadetail").innerHTML = dealAmount;
+			document.querySelector("#floordetail").innerHTML = dealYear;
+			document.querySelector("#buildyeardetail").innerHTML = area;
+			document.querySelector("#dealamount").innerHTML = floor;
+			document.querySelector("#dealyear").innerHTML = buildYear;
+			/// 버튼 클릭시 지도에 좌표 띄우기
+			document.querySelector("#showlocation").onclick = function(){
+				// 위도 경도 띄우기 
+				let lat2 = el.lat;
+				let lng2 = el.lng;
+				//console.log("위도경도")
+				//console.log(lat2);
+				//console.log(lng2);
+				//$("#lat").html(lat2);
+				//$("#lng").html(lng2);
+				var ttt = { lat: lat2 ,lng: lng2 };
+				console.log(ttt);
+				map = new google.maps.Map(
+			  	        document.getElementById('map'), {
+			  	          zoom: 15,
+			  	          center: ttt
+			  	        });
+				var marker = new google.maps.Marker( { position: ttt, map:map});
+			}
+			
+			// 모달창 띄우기
+			let modal = new bootstrap.Modal(document.querySelector("#boardDetailModal"), {  keyboard: false } )
+			modal.show();
+		}
+		
+		
+			
+   </script>
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1CRjAOA93vwh8VvCkgR1AGt2VGiclFws&callback=initMap&libraries=&v=weekly"
+	></script>
+  
+  	<script>
+  	// 맵관련 메소드
+  	 function initMap() {
+  	      var seoul = { lat: 37.5642135 ,lng: 127.0016985 };
+  	      map = new google.maps.Map(
+  	        document.getElementById('map'), {
+  	          zoom: 12,
+  	          center: seoul
+  	        });
+  	      
+  	      var marker = new google.maps.Marker( { 
+  	    	  position: seoul,
+  	    	  map:map
+  	    	 });
+  	      
+  	    }
+  	
+  	</script>
+   
+   
+</body>
+</html>

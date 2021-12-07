@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<title>HappyHouse</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+#map {
+	margin-top: 20px;
+	height: 300px;
+}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/index_AfterLogin">Happy
+				House</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/noticelist">공지사항</a></li>
+					<li class="nav-item"><a class="nav-link" href="/board">게시판</a></li>
+					<li class="nav-item"><a class="nav-link" href="/Building_Search"> 아파트 매매 정보</a></li>
+					
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse justify-content-end"
+				id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" id="logout">🔒로그아웃</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" id="mypage">✋내정보</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="image">
+					<img class="image-thumbnail" style="opacity: 0.9;"
+						src="img/mian3.png">
+					<div class="text">
+						<h1>Happy house</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="container">
+			<div class="mb-3 d-flex justify-content-center">
+				<h1>반갑습니다! '</h1>
+				<h1 id="name"></h1>
+				<h1>' 님.</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-5"></div>
+			<div class="col-4" style="margin-top: 10px;">
+				<div class="btn-group">
+					<button class="btn btn-secondary btn-sm dropdown-toggle"
+						type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						도/광역시</button>
+					<ul class="dropdown-menu">...
+					</ul>
+				</div>
+				<div class="btn-group">
+					<button class="btn btn-secondary btn-sm dropdown-toggle"
+						type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						시/구/군</button>
+					<ul class="dropdown-menu">...
+					</ul>
+				</div>
+				<div class="btn-group">
+					<button class="btn btn-secondary btn-sm dropdown-toggle"
+						type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						동</button>
+					<ul class="dropdown-menu">...
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div id="map"></div>
+				<script>
+                    var map;
+                    function initMap(){
+            
+                        var seoul = {
+                            lat : 37.5743822,
+                            lng : 126.9688505
+                        }
+            
+                        //map 생성 표시
+                        map = new google.maps.Map(
+                            document.getElementById("map"),
+                            {
+                                center :seoul,
+                                zoom : 10
+                            }
+                        );
+            
+                        var locations = [
+                                    {"lat": 37.484866, "lng": 127.080639},
+                                    {"lat": 37.563032, "lng": 127.158072},
+                                    {"lat": 37.487800, "lng": 127.016726},
+                                    {"lat": 37.495250, "lng": 127.114963},
+                                    {"lat": 37.562448, "lng": 127.028949},
+                                    {"lat": 37.520093, "lng": 127.104611}
+                        ];
+                        var labels = ['디에이치자이개포', '고덕그라시움', '서초그랑자이', '헬리오시티', '영등포구', '파크리오']
+            
+                       
+            
+                        locations.forEach( (location, i) =>{
+                            new google.maps.Marker({
+                            map : map,
+                            position: location,
+                            label: labels[i]
+                           
+                        });
+                        })
+            
+                        
+                        google.maps.event.addListener( map, 'click', function(event){
+                            console.log(event.latLng.lat());
+                            console.log(event.latLng.lng());
+                        })
+                    }
+                </script>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-4 frame3">
+				<div class="center">
+					<h4>오늘의 중개사</h4>
+					<div id="recommend">
+						<div class="item">
+							<span class="text"></span>
+						</div>
+						<span class="badge rounded-pill bg-warning text-dark">VVIP</span><span>박실장
+							xxx-xxxx-xxxx</span>
+						<div class="item">
+							<span class="badge rounded-pill bg-warning text-dark">VVIP</span><span>박실장
+								xxx-xxxx-xxxx</span>
+						</div>
+						<div class="item">
+							<span class="badge rounded-pill bg-warning text-dark">VVIP</span><span>최실장
+								xxx-xxxx-xxxx</span>
+						</div>
+						<div class="item">
+							<span class="badge rounded-pill bg-danger text-dark">VIP</span><span>김실장
+								xxx-xxxx-xxxx</span>
+						</div>
+						<div class="item">
+							<span class="badge rounded-pill bg-secondary text-dark">silver</span><span>전실장
+								xxx-xxxx-xxxx</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-4 frame1">
+				<div class="center">
+					<h4>내집 마련하기</h4>
+					<div id="recommend">
+						<div class="item">
+							<span class="text"></span>
+						</div>
+						<div class="item">1️⃣정보 수집 & 시세파악 🔍</div>
+						<div class="item">2️⃣경매 집 알아보기 🔨</div>
+						<div class="item">3️⃣놓치면 손해인집 (˶◕ ‿◕˶✿)</div>
+						<div class="item">4️⃣매매/전세 알아보기 📣</div>
+						<div class="item">5️⃣건물 매매 🌃</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-4 frame2">
+				<div class="center">
+					<h4>오늘의 매물</h4>
+					<div id="recommend">
+						<div class="item">
+							<span class="text"></span>
+						</div>
+						<div class="item">🏢디에이치자이개포</div>
+						<div class="item">🏡서초그랑자이</div>
+						<div class="item">🏢센트라스 1,2차</div>
+						<div class="item">🏡파크리오</div>
+						<div class="item">🏢헬리오시티</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row"></div>
+
+		<!--------------- Modal --------------------------->
+		<div class="modal fade" id="userinfo">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">내정보 보기</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+
+						<div class="example table-responsive">
+							<table class="table">
+								<tbody>
+									
+									<tr>
+										<td> 유저 이름 </td>
+										<td id="userNameDetail">#</td>
+									</tr>
+									<tr>
+										<td> 유저 이메일 </td>
+										<td id="userEmailDetail">#</td>
+									</tr>
+									<tr>
+										<td> 가입날짜 </td>
+										<td id="userRegiDetail">#</td>
+									</tr>
+																		
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="container">
+						  <div class="row">
+						    <div class="col-9">
+						    </div>
+						    <div class="col-3">
+						     <button id="modify" type="button" class="btn btn-warning">회원정보 수정하기</button>
+						   
+						    </div>
+						  </div>
+						</div>
+
+					</div>
+					
+					
+					
+				</div>
+			</div>
+		</div>
+		<!--------------- Modal --------------------------->
+
+	</div>
+
+	<script>
+	window.onload = function(){
+      	// 로그인이 안되어있으면 초기값으로
+		if ( sessionStorage.length == 0 || sessionStorage == null ) {
+			alert("로그인 하세요!");
+			window.location.href="/index.html";
+		}
+      	
+		// 회원 정보
+      	console.log(sessionStorage);
+      	let x = document.getElementById('name');
+      	x.innerText = sessionStorage.getItem("userName");
+//  
+      	document.querySelector("#logout").onclick = function(){
+			alert("로그아웃합니다!");
+			sessionStorage.clear();
+			window.location.href="/index.html";
+		}
+	
+      	
+      	document.querySelector("#mypage").onclick = function(){
+      		
+      		var myModal = new bootstrap.Modal(document.getElementById("userinfo"));
+      		document.querySelector("#userNameDetail").innerHTML = sessionStorage.getItem("userName");
+      		document.querySelector("#userEmailDetail").innerHTML = sessionStorage.getItem("userEmail");
+      		
+      		var regDt = sessionStorage.getItem("userRegisterDate");
+      		//var regDtStr = makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.');
+      		document.querySelector("#userRegiDetail").innerHTML = regDt;
+      		
+            myModal.show();
+		}
+      	
+      	document.querySelector("#modify").onclick = function(){
+      		window.location.href="/modify";
+		}
+	}
+    
+      
+    </script>
+	
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6jAYhnVDe2UW-e9drMkY901FYMNAwYYY&callback=initMap"
+		async defer></script>
+</body>
+</html>

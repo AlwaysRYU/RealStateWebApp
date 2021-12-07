@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.png">
+  <title>
+    죽이는 방찾기 죽방
+  </title>
+
+  <!-- add here -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
+  <meta name="author" content="Themesberg">
+  <meta name="description"
+    content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+  <meta name="keywords"
+    content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, themesberg, themesberg dashboard, themesberg admin dashboard" />
+  <link rel="canonical" href="https://themesberg.com/product/admin-dashboard/volt-premium-bootstrap-5-dashboard">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://demo.themesberg.com/volt-pro">
+  <meta property="og:title" content="Volt - Free Bootstrap 5 Dashboard">
+  <meta property="og:description"
+    content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+  <meta property="og:image"
+    content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://demo.themesberg.com/volt-pro">
+  <meta property="twitter:title" content="Volt - Free Bootstrap 5 Dashboard">
+  <meta property="twitter:description"
+    content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+  <meta property="twitter:image"
+    content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="120x120" href="/public/assets/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/assets/img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/public/assets/img/favicon/site.webmanifest">
+  <!-- /p./assets/img/favicon/safari-pinned-tab.svg -->
+  <link rel="mask-icon" href="../../happyhouse6/public/assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+  <!-- <link rel="mask-icon" href="/public/assets/img/favicon/safari-pinned-tab.svg" color="#ffffff"> -->
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Sweet Alert -->
+  <link type="text/css" href="/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <!-- Notyf -->
+  <link type="text/css" href="/vendor/notyf/notyf.min.css" rel="stylesheet">
+
+  <!-- Volt CSS -->
+  <link type="text/css" href="/css/volt.css" rel="stylesheet">
+
+
+  <!-- add end -->
+  
+  <!-- 카카오 맵 -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3c4678e9fc747f81c35acab80fbff1c0&libraries=services"></script>
+  <!-- 예쁜 알람 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.2.0/sweetalert2.min.js" integrity="sha512-BbhEY8ZvF5TicBw3nIPE5QA4tgPjQ8C3fIiY9c4UBSaRBmvFcY/qOD3FIBa30oBRbN6h/+KjzEMHGqI9tnbSIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+</head>
+
+<body style="background-color: #f2f4f6" >
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+
+  <script src="/vendor/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <!-- Vendor JS -->
+  <script src="/vendor/onscreen/dist/on-screen.umd.min.js"></script>
+
+  <!-- Slider -->
+  <script src="/vendor/nouislider/dist/nouislider.min.js"></script>
+
+  <!-- Smooth scroll -->
+  <script src="/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+
+  <!-- Charts -->
+  <script src="/vendor/chartist/dist/chartist.min.js"></script>
+  <script src="/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+
+  <!-- Datepicker -->
+  <script src="/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+
+  <!-- Sweet Alerts 2 -->
+  <script src="/vendor/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+  <!-- Moment JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+
+  <!-- Vanilla JS Datepicker -->
+  <script src="/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+
+  <!-- Notyf -->
+  <script src="/vendor/notyf/notyf.min.js"></script>
+
+  <!-- Simplebar -->
+  <script src="/vendor/simplebar/dist/simplebar.min.js"></script>
+
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <!-- Volt JS -->
+  <script src="/assets/js/volt.js"></script>
+
+  <!-- 카카오 맵 사용-->
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3c4678e9fc747f81c35acab80fbff1c0"></script> -->
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3c4678e9fc747f81c35acab80fbff1c0&libraries=services"></script> -->
+</body>
+
+</html>

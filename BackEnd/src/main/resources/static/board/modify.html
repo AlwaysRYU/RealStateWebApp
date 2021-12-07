@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>회원 정보 수정 페이지</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/index_AfterLogin">Happy
+				House</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/noticelist">공지사항</a></li>
+					<li class="nav-item"><a class="nav-link" href="/board">게시판</a></li>
+					<li class="nav-item"><a class="nav-link" href="/Building_Search"> 아파트 매매 정보</a></li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse justify-content-end"
+				id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" id="logout">🔒로그아웃</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" id="mypage">✋내정보</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="container">
+        <form class="row g-3">
+            <div class="row mt-3">
+                <div class="col-3"></div>
+                <h3 class="col-6 mt-5"> ✒️ 회원 정보 수정 </h3>
+                <div class="col-3"></div>               
+            </div>
+            <div class="row mt-3">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <label for="inputId" class="form-label">유저 이름</label>
+                    <input type="text" class="form-control" id="inputId" value="ssafy">
+                </div>
+                <div class="col-3"></div>            
+            </div>
+            <div class="row mt-3">
+                <div class="col-3"></div>
+                <div class="col-6"> 
+                    <label for="inputPwd" class="form-label">비밀번호</label>
+                    <input type="password" class="form-control" id="inputPwd" value="1234">
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-8"></div>
+                <div class="col-1">
+                    <button id="btnModify" type="submit" class="btn btn-primary">수정</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<script>
+	window.onload = function(){
+		
+		if ( sessionStorage.length == 0  || sessionStorage == null ) {
+			alert("로그인 하세요!");
+			window.location.href="/index.html";
+		}
+		
+		document.querySelector("#btnModify").onclick = function(){
+			//alert("수정하기");
+			modify();
+		}
+	}
+	
+	function modify(){
+		let urlParams = new URLSearchParams({
+			userName : document.getElementById("inputId").value,
+	        userEmail : sessionStorage.getItem("userEmail"),
+	        userPassword : document.getElementById("inputPwd").value
+	    });
+		
+		let fetchOptions = {
+	      	method: "POST",
+	        body: urlParams,
+	        redirect : "follow"
+		}
+		//var url = '/modify/' + userEmail;
+		fetch('/modify', fetchOptions)
+		    .then( response => response.json())
+		    .then( json => {		
+		    	
+		    	if ( json.result == 1 ){
+		    		console.log("수정 완료");
+		    		alert("수정완료되었습니다..");
+		    		window.location.href="/index_AfterLogin";
+		    	}
+		    	
+		    	})
+		    .catch( error => {
+		    	console.error( error );
+		    	alertify.error('글 상세 조회 과정에 문제가 생겼습니다.');
+		    });
+		
+		//alert("수정완료되었습니다.");
+	}
+	
+</script>
+</body>
+</html>

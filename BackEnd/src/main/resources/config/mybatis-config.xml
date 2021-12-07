@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<!-- Camel 표기법에 대해 자동으로 변환시켜 준다. callSettersOnNulls는 DB의 값이 null이더라도 해당 항목에 대한 Setter를 호출하게 한다. -->
+    <settings>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+	<mappers>
+	    <mapper resource="mapper/login_query.xml" />
+	    <mapper resource="mapper/user_query.xml" />
+	    <mapper resource="mapper/board_query.xml" />
+	    <mapper resource="mapper/notice_query.xml" />
+	    <mapper resource="mapper/building_query.xml" />
+	    <mapper resource="mapper/code_query.xml" />
+	</mappers>
+	
+</configuration>

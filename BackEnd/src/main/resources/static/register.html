@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Bootstrap 5 버전 -->
+	<!-- https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+	
+	<!-- jQuery 는 학습용으로 사용하는 것으로 위 Bootstrap 5는 더이상 아래의 jQuery 를 필요로 하지 않는다. -->
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/alertify.min.js"></script>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/css/alertify.min.css"/>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/css/themes/default.min.css"/>
+	<title>회원 가입</title>
+</head>
+<!-- 
+Bootstrap 5
+jQuery
+ajax with jQuery $.ajax()
+post with urlencoded
+
+server response ResponseEntity : 성공 실패 여부를 httpRequest.status 로 체크
+-->
+<body>
+<br>
+<br>
+	<div class="container">
+		<div class="mb-3 d-flex justify-content-center">
+	  		<h1 class="display-4"> 회원 가입 </h1>
+		</div>
+		<div class="mb-3">
+			<h2>Register</h2>
+		</div>
+		<form novalidate id="registerform">
+			<div class="mb-3">
+                <label for="userEmail">Email : Email은 아이디로도 쓰입니다.</label>
+                <input type="text" class="form-control" id="userEmail" placeholder="Enter email" name="userEmail" required>
+                <div class="valid-feedback"> 사용가능한 이메일 입니다.</div>
+                <div class="invalid-feedback"> 내용을 올바르게 입력해 주세요. </div>
+            </div>
+            <div class="mb-3">
+                <label for="userName"> 이름 :</label>
+                <input type="text" class="form-control" id="userName" placeholder="Enter userName" name="userName" required>
+                <div class="valid-feedback"> 사용가능한 이름입니다. </div>
+                <div class="invalid-feedback"> 내용을 입력해 주세요.</div>
+            </div>
+            <div class="mb-3">
+                <label for="userPassword"> 비밀 번호 : </label>
+                <input type="password" class="form-control" id="userPassword" placeholder="Enter password" name="userPassword" required>
+                <div class="valid-feedback"> 사용가능한 비밀번호입니다.</div>
+                <div class="invalid-feedback">1개 이상의 특수문자, 대소문자 및 숫자를 포함하고 8자리 이상이여야 합니다.</div>
+            </div>
+            <div class="mb-3">
+                <label for="userPassword2"> 비밀번호 확인 :</label>
+                <input type="password" class="form-control" id="userPassword2" placeholder="Confirm password" name="userPassword2" required>
+                <div class="valid-feedback"> 비밀번호가 일치합니다. </div>
+                <div class="invalid-feedback"> 입력하신 비밀번호와 다릅니다. </div>
+            </div>
+            
+        </form>
+		<div>
+			<button id="btnRegister" class="btn btn-primary">가입</button>
+		</div>
+	</div>
+
+<script>
+
+window.onload = function(){
+	document.querySelector("#userName").focus();
+	
+	// 이름 체크
+	document.querySelector("#userName").onblur = function() {
+		//alert("나갓다");
+		var tempname = document.getElementById("userName").value;
+		var ele = document.getElementById("userName");
+		if ( validateUserName(tempname) ) {
+			ele.classList.remove("is-invalid");
+			ele.classList.add("is-valid");
+           // $(this).removeClass("is-invalid").addClass('is-valid');
+        } else {
+            //$(this).removeClass("is-valid").addClass('is-invalid');
+        	ele.classList.remove("is-valid");
+			ele.classList.add("is-invalid");
+        }
+	}
+	
+	// 비밀번호체크
+	document.querySelector("#userPassword").onblur = function() {
+		//alert("나갓다");
+		var tempname = document.getElementById("userPassword").value;
+		var ele = document.getElementById("userPassword");
+		if ( validatePassword(tempname) ) {
+			ele.classList.remove("is-invalid");
+			ele.classList.add("is-valid");
+           // $(this).removeClass("is-invalid").addClass('is-valid');
+        } else {
+            //$(this).removeClass("is-valid").addClass('is-invalid');
+        	ele.classList.remove("is-valid");
+			ele.classList.add("is-invalid");
+        }
+	}
+	
+	// 비밀번호2체크
+	document.querySelector("#userPassword2").onblur = function() {
+		//alert("나갓다");
+		var tempname = document.getElementById("userPassword2").value;
+		var ele = document.getElementById("userPassword2");
+		if ( validatePassword2(tempname) ) {
+			ele.classList.remove("is-invalid");
+			ele.classList.add("is-valid");
+           // $(this).removeClass("is-invalid").addClass('is-valid');
+        } else {
+            //$(this).removeClass("is-valid").addClass('is-invalid');
+        	ele.classList.remove("is-valid");
+			ele.classList.add("is-invalid");
+        }
+	}
+	
+	//이메일체크
+	document.querySelector("#userEmail").onblur = function() {
+		//alert("나갓다");
+		var tempname = document.getElementById("userEmail").value;
+		var ele = document.getElementById("userEmail");
+		if ( validateEmail(tempname) ) {
+			ele.classList.remove("is-invalid");
+			ele.classList.add("is-valid");
+           // $(this).removeClass("is-invalid").addClass('is-valid');
+        } else {
+            //$(this).removeClass("is-valid").addClass('is-invalid');
+        	ele.classList.remove("is-valid");
+			ele.classList.add("is-invalid");
+        }
+	}
+	
+	document.querySelector("#btnRegister").onclick = function() {
+		if ( document.querySelector("#registerform").getElementsByClassName("is-invalid") > 0 ) {
+			 alert("입력이 올바르지 않습니다.");
+		} else {
+			register2();
+		}
+	}
+	
+	document.querySelector("#modify").onclick = function(){
+  		window.location.href="/modify";
+	}
+}
+
+
+
+function validateUserName(userName) {
+    if (userName.length >= 2) return true;
+    else return false;
+}
+
+function validatePassword(userPassword) {
+	let userPasswordValue = userPassword;
+
+	var patternEngAtListOne = new RegExp(/[a-zA-Z]+/);// + for at least one
+	var patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/);// + for at least one
+	var patternNumAtListOne = new RegExp(/[0-9]+/);// + for at least one
+	
+	if( patternEngAtListOne.test( userPasswordValue ) 
+			&& patternSpeAtListOne.test( userPasswordValue )  
+			&& patternNumAtListOne.test( userPasswordValue )
+			&& userPasswordValue.length >= 8
+	){
+		return true;
+	}
+    else return false;
+}
+
+function validatePassword2(userPassword2) {
+	let userpw = document.getElementById("userPassword").value
+    if ( userPassword2 == userpw ) return true;
+    else return false;
+}
+
+function validateEmail(userEmail) {
+    // ^ 시작일치, $ 끝 일치
+    // {2, 3} 2개 ~ 3개
+    // * 0회 이상, + 1회 이상
+    // [-_.] - 또는 _ 또는 .
+    // ? 없거나 1회
+    let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if ( regexp.test(userEmail) ) return true;
+    else return false;
+}
+
+// 회원가입 실행함수 / post방식으로 준다.
+function register2() {
+	let urlParams = new URLSearchParams({
+		userName : document.getElementById("userName").value,
+        userEmail : document.getElementById("userEmail").value,
+        userPassword : document.getElementById("userPassword").value
+    });
+
+    let fetchOptions = {
+        method: "POST",
+        body: urlParams,
+    }
+    
+    fetch('/register', fetchOptions)
+        .then( response => response.json() ) // json response
+        .then( json => {
+        	console.log( json );
+    		alert("회원가입 성공!");
+    		window.location.href="/index.html";
+        } )
+        .catch( error => console.error( error ));
+	
+ }
+</script>
+</body>
+</html>

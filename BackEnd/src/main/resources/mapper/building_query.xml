@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mycom.happyhouse.dao.BuildingDao">
+
+	<!--  
+	<select id="boardList" parameterType="map" resultType="com.mycom.happyhouse.dto.BuildingDto">
+		SELECT D.no, D.dong, D.AptName, D.dealAmount, D.buildYear, D.dealYear, D.floor, D.area, H.gugun_Name, I.lat, I.lng  
+	       FROM (housedeal D JOIN houseinfo I) JOIN dong_code H
+	         ON D.AptName = I.AptName 
+	         AND D.dong = H.name
+		 ORDER BY D.no ASC
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+	-->
+	
+	<!-- 수정후  -->
+	<select id="boardList" parameterType="map" resultType="com.mycom.happyhouse.dto.BuildingDto">
+		 SELECT no, dong, AptName, lat, lng
+		 FROM houseinfo
+		 ORDER BY no ASC
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<!-- 유저 좋아요 리스트  -->
+	<select id="likeBuildinglist" parameterType="map" resultType="com.mycom.happyhouse.dto.BuildingDto">
+		 SELECT D.no, D.dong, D.AptName, D.dealAmount, D.buildYear, D.dealYear, D.floor, D.area, I.lat, I.lng 
+		 FROM housedeal D LEFT JOIN  houseinfo I 
+	 	 ON D.AptName = I.AptName
+	  	 WHERE D.no IN (SELECT L.like_name
+						FROM user_like L	
+						WHERE user_seq = #{userSeq} )
+		 GROUP BY D.no
+		 ORDER BY D.no ASC
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="likeBuildinglistTotalCount" resultType="int">
+		 SELECT COUNT(*)
+		FROM user_like L	
+		WHERE user_seq =  #{userSeq}
+	</select>
+	
+	
+	<!-- <select id="BoardListTotalCount" resultType="int">
+		SELECT COUNT(*)   
+	      FROM housedeal D JOIN dong_code H ON D.dong = H.name;
+	</select> -->
+	<!-- 수정후 -->
+	<select id="BoardListTotalCount" resultType="int">
+		SELECT COUNT(*)   
+	      FROM houseinfo;
+	</select>
+	
+	<!-- <select id="boardListSearchWord" parameterType="map" resultType="com.mycom.happyhouse.dto.BuildingDto">
+		SELECT D.no, D.dong, D.AptName, D.dealAmount, D.buildYear, D.dealYear, D.floor, D.area, H.gugun_Name
+		  FROM housedeal D JOIN dong_code H 
+		  ON D.dong = H.name
+ 		 WHERE D.dong LIKE CONCAT('%', #{searchWord} ,'%')
+		  LIMIT #{limit} OFFSET #{offset}
+	</select> -->
+	<!-- 수정후  -->
+	<select id="boardListSearchWord" parameterType="map" resultType="com.mycom.happyhouse.dto.BuildingDto">
+		SELECT no, dong, AptName, lat, lng
+		 FROM houseinfo
+		 WHERE dong LIKE CONCAT('%', #{searchWord} ,'%') AND AptName LIKE CONCAT('%', #{searchWordName} ,'%')
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	
+	<!-- <select id="boardListSearchWordTotalCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		  FROM housedeal D JOIN dong_code H ON D.dong = H.name
+ 		 WHERE D.dong LIKE CONCAT('%', #{searchWord} ,'%')
+	</select> -->
+
+	<select id="boardListSearchWordTotalCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		  FROM houseinfo
+		 WHERE dong LIKE CONCAT('%', #{searchWord} ,'%') AND AptName LIKE CONCAT('%', #{searchWordName} ,'%')
+	</select>
+	
+	
+	
+	<!-- 이게 인트가 나오는게 좀 수상하다. -->
+	<!-- <select id="boardDetail" parameterType="int" resultType="com.mycom.happyhouse.dto.BuildingDto">
+		 SELECT D.no, D.dong, D.AptName, D.dealAmount, D.buildYear, D.dealYear, D.floor, D.area, H.gugun_Name, I.lat, I.lng  
+	       FROM (housedeal D JOIN houseinfo I) JOIN dong_code H
+	         ON D.AptName = I.AptName AND D.dong = H.name  
+	       WHERE D.no = #{boardId}
+	</select> -->
+	
+	<!-- @param 붙여줘야함 -->
+	<select id="boardDetail2" parameterType="map" resultType="com.mycom.happyhouse.dto.BuildingDto">
+	       SELECT D.no, D.dong, D.AptName, D.dealAmount, D.buildYear, D.dealYear, D.floor, D.area, H.gugun_Name
+			 FROM housedeal D LEFT JOIN dong_code H
+		       ON D.dong = H.name
+			WHERE D.AptName LIKE CONCAT('%', #{AptName} ,'%') AND D.dong LIKE CONCAT('%', #{dong} ,'%') 
+			GROUP BY D.no
+	       
+	</select>
+	
+	<select id="likebuildingdetail" parameterType="int" resultType="com.mycom.happyhouse.dto.BuildingDto">
+	      SELECT D.no, D.dong, D.AptName, D.dealAmount, D.buildYear, D.dealYear, D.floor, D.area, H.gugun_Name,  I.lat, I.lng 
+			FROM housedeal D LEFT JOIN (houseinfo I LEFT JOIN dong_code H ON I.dong = H.name)
+				ON D.AptName = I.AptName
+		   WHERE D.no = #{no}
+	       GROUP BY D.no;
+	</select>
+
+	<select id="likeycheck"  resultType="int">
+		SELECT like_name
+		FROM user_like
+		WHERE user_seq = #{userSeq} AND like_name = #{no};	
+	</select>
+	
+	<!-- 얘는 dto씀 -->
+	<insert id="likeyInsert" parameterType="com.mycom.happyhouse.dto.LikeParamDto" >
+		INSERT INTO user_like (user_seq, like_code, like_name) 
+			 VALUES (#{userSeq} , '001', #{likeName});
+	</insert>
+	
+	<delete id="likeyDelete" parameterType="com.mycom.happyhouse.dto.LikeParamDto" >
+		DELETE FROM user_like
+		      WHERE user_seq = #{userSeq} AND like_name = #{likeName};
+	</delete>
+	
+	<select id="randomapts" resultType="com.mycom.happyhouse.dto.BuildingDto" >
+		SELECT D.no, D.dong, D.AptName, D.dealAmount, D.buildYear, D.dealYear, D.floor, D.area
+		FROM housedeal D LEFT JOIN houseinfo I 
+		ON D.AptName = I.AptName
+		WHERE D.no = ( 
+					SELECT * 
+					FROM (
+					 		SELECT like_name
+							FROM user_like
+							ORDER BY rand()
+		            		LIMIT 1 
+		            	) as t
+					)
+		GROUP BY D.no;
+	</select>
+	
+</mapper>
