@@ -17,9 +17,11 @@
 
 - RESTAPI 
 
-### 기간
+## 🗓 기간 및 일정
 2021.11.18. ~ 2021.11.25.
   
+  ![06 일정](https://user-images.githubusercontent.com/55683134/146367978-580c241a-b683-493f-ba4e-046f8984f23f.png)
+
 ## 👀 화면 이미지
 ### 메인
 
@@ -36,3 +38,6 @@
   ### 아파트 매매정보
 ![04아파트매매정보](https://user-images.githubusercontent.com/55683134/146362008-0950e3ad-1faa-46f3-9ca4-da265211e426.png)
 
+
+## ⚙ ERD
+  ![05ERD](https://user-images.githubusercontent.com/55683134/146367384-cca0c26c-2be1-4224-adad-f40dc078dd27.PNG)
