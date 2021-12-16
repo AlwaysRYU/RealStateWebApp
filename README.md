@@ -42,3 +42,8 @@
 
 ## ⚙ ERD
   ![05ERD](https://user-images.githubusercontent.com/55683134/146367384-cca0c26c-2be1-4224-adad-f40dc078dd27.PNG)
+  
+## 📂 RESTAPI URL
+  ![07RESTAPI](https://user-images.githubusercontent.com/55683134/146388847-5e2e8ab8-5813-4ac4-8e9b-6d18e4be3cf7.PNG)
+
+  
